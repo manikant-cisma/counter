@@ -1,0 +1,62 @@
+{
+  // Name of the sim cfg - typically same as the name of the DUT.
+  name: counter
+
+  // Top level dut name (sv module).
+  dut: counter
+
+  // Top level testbench name (sv module).
+  tb: counter_tb
+
+  // Simulator used to sign off this block
+  tool: xsim
+
+  // Fusesoc core file used for building the file list.
+  ipforge_core: bci:dv_xsim:counter:0.1
+
+  // Import additional common xsim cfg files.
+  import_cfgs: [ "{veriforge_home}/templates/veriforge/xsim.hjson"] 
+
+  // Different modes needed for DUT and TB elaboration 
+  build_modes: [
+    {
+        name: base_test
+        build_opts: ["{tb}"]
+    }
+  ]
+
+  // List of test specifications.
+  tests: [
+    {
+      name: short
+      build_mode: base_test
+      run_opts: [ "-t {proj_root}/dv/tcl/short.tcl" ]
+    }
+    {
+      name: short_dbg
+      build_mode: xsim_waves
+      run_opts: [ "-t {proj_root}/dv/tcl/short_dbg.tcl" ]
+    }
+    {
+      name: long
+      build_mode: base_test
+      run_opts: [ "-R" ]
+    }
+    {
+      name: long_dbg
+      build_mode: xsim_waves
+      run_opts: [ "-t {proj_root}/dv/tcl/long_dbg.tcl" ]
+    }
+  ]
+
+  // List of regressions.
+  regressions: [
+    {
+      name: baseline
+      tests: [ "short"
+               "short_dbg"
+               "long"
+               "long_dbg" ]
+    }
+  ]
+}

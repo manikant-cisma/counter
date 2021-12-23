@@ -1,0 +1,17 @@
+CAPI=2:
+
+name: "bci:ip:counter:0.1"
+description: "counter"
+
+filesets:
+  files_rtl:
+    files:
+        - rtl/counter.sv
+    file_type: systemVerilogSource
+
+targets:
+    default:
+        filesets:
+            - files_rtl
+        toplevel: counter 
+
